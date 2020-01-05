@@ -25,3 +25,56 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Application\Flight\Factory\FlightRoutesFactory:
+    App\Infrastructure\Client\GuzzleApiClient:
+    App\Infrastructure\DataTransformers\Flight\JsonFlightRoutesDataTransformer:
+
+    App\Application\Flight\Get\GetAllFlightRoutes:
+        arguments:
+            - '@App\Infrastructure\Client\GuzzleApiClient'
+            - '@App\Application\Flight\Factory\FlightRoutesFactory'
+
+    App\Infrastructure\Controller\Flight\Get\GetAllFlightRoutesController:
+        arguments:
+            - '@App\Application\Flight\Get\GetAllFlightRoutes'
+            - '@App\Infrastructure\DataTransformers\Flight\JsonFlightRoutesDataTransformer'
+        tags: ['controller.service_arguments']
+
+    App\Application\Flight\Get\GetFlightRoutes:
+        arguments:
+            - '@App\Infrastructure\Client\GuzzleApiClient'
+            - '@App\Application\Flight\Factory\FlightRoutesFactory'
+
+    App\Infrastructure\Controller\Flight\Get\GetFlightRoutesController:
+        arguments:
+            - '@App\Application\Flight\Get\GetFlightRoutes'
+            - '@App\Infrastructure\DataTransformers\Flight\JsonFlightRoutesDataTransformer'
+        tags: ['controller.service_arguments']
+
+    App\Infrastructure\DataTransformers\Flight\JsonFlightSchedulesDataTransformer:
+
+    App\Application\Flight\Get\GetFlightSchedules:
+        arguments:
+        - '@App\Infrastructure\Client\GuzzleApiClient'
+
+    App\Infrastructure\Controller\Flight\Get\GetFlightSchedulesController:
+        arguments:
+            - '@App\Application\Flight\Get\GetFlightSchedules'
+            - '@App\Infrastructure\DataTransformers\Flight\JsonFlightSchedulesDataTransformer'
+        tags: ['controller.service_arguments']
+
+
+    App\Infrastructure\DataTransformers\Flight\JsonFlightAvailabilitiesDataTransformer:
+    App\Application\Flight\Factory\FlightAvailabilityFactory:
+
+    App\Application\Flight\Get\GetFlightAvailabilities:
+        arguments:
+            - '@App\Infrastructure\Client\GuzzleApiClient'
+            - '@App\Application\Flight\Factory\FlightAvailabilityFactory'
+
+    App\Infrastructure\Controller\Flight\Get\GetFlightAvailabilitiesController:
+        arguments:
+            - '@App\Application\Flight\Get\GetFlightAvailabilities'
+            - '@App\Infrastructure\DataTransformers\Flight\JsonFlightAvailabilitiesDataTransformer'
+        tags: ['controller.service_arguments']
